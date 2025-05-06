@@ -13,6 +13,13 @@ resource "azurerm_subnet" "aks" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
+resource "azurerm_subnet" "appgw" {
+  name                 = "snet-appgw"
+  resource_group_name  = "rg-demo"
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes     = ["10.0.2.0/24"]
+}
+
 module "aks" {
   source              = "./modules/aks"
   resource_group_name = "rg-demo"
