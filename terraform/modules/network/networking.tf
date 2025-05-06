@@ -4,10 +4,12 @@ locals {
   resource_group_name = split("/", var.resource_group_id)[4]
 
   # Calculate VNet address space from subnet prefixes
+  # 1. Collects all subnet address prefixes into a flat list
+  # 2. Calculates the smallest possible CIDR block that can contain all subnets
+  # 3. Uses this calculated CIDR as the VNet's address space
   all_subnet_prefixes = flatten([
     for subnet in values(var.subnets) : subnet.address_prefixes
   ])
-  
   # Get the smallest network that contains all subnets
   vnet_cidr = [cidrhost(
     format("%s/%s",
@@ -16,6 +18,7 @@ locals {
     ),
     0
   )]
+
 }
 
 resource "azurerm_virtual_network" "vnet" {
