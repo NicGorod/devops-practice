@@ -28,21 +28,21 @@ module "agw" {
   source              = "./modules/appgw"
   resource_group_name = "rg-demo"
   location            = "canadacentral"
-  appgw_name         = "agw-demo"
-  vnet_name          = azurerm_virtual_network.vnet.name
-  subnet_name        = "snet-appgw"
-  subnet_id          = azurerm_subnet.appgw.id
-  backend_pool       = "backend-pool"
+  appgw_name          = "agw-demo"
+  vnet_name           = azurerm_virtual_network.vnet.name
+  subnet_name         = "snet-appgw"
+  subnet_id           = azurerm_subnet.appgw.id
+  backend_pool        = "backend-pool"
   backend_http_settings = {
-    name             = "http-settings"
+    name                  = "http-settings"
     cookie_based_affinity = "Disabled"
-    port             = 80
-    protocol         = "Http"
-    request_timeout  = 60
+    port                  = 80
+    protocol              = "Http"
+    request_timeout       = 60
   }
   frontend_ip_config = {
-    name            = "frontend-ip"
-    public_ip      = true
+    name       = "frontend-ip"
+    public_ip  = true
   }
 }
 
