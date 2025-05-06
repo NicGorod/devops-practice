@@ -1,0 +1,7 @@
+
+*.tfstate
+*.tfstate.*
+
+./terraform.tfstate
+.terraform/.terraform.lock*
+
