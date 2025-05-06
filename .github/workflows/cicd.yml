@@ -59,7 +59,8 @@ jobs:
         run: bicep build main.bicep
 
       - name: Bicep what-if (simulated)
-        run: echo "Skipped: would run az deployment group what-if here"
+        run: |
+          echo "Skipped: would run az deployment group what-if here"
 
       #
       # OPTIONAL: OIDC Login to Azure (commented)
