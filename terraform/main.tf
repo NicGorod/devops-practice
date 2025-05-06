@@ -1,6 +1,3 @@
-provider "azurerm" {
-  features {}
-}
 
 resource "azurerm_virtual_network" "vnet" {
   name                = "vnet-aks"
