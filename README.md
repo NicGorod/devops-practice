@@ -43,6 +43,14 @@ This is a mock setup intended as a skills demonstration. Actual deployment steps
 - Traffic Manager actions are simulated via CLI echo commands
 - SLO and rollback are represented by a test script with a forced failure
 
+## Terraform modules
+
+- **network**: Basic network module for hub-spoke architecture [(details)](./network/README.md)
+- **aks**: AKS cluster module [(details)](./aks/README.md)
+- **appgw**: Application Gateway module [(details)](./appgw/README.md)
+- **cosmosdb**: Cosmos DB module [(details)](./cosmosdb/README.md)
+
+
 ## How to Use
 
 ```bash
