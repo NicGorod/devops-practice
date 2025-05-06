@@ -10,8 +10,8 @@ import re
 
 # STEP 0: LOAD OUR TOKEN FROM SOMEWHERE SAFE
 load_dotenv()
-TOKEN: Final[str] = 'MTI0OTE3NDMwMzM2MzAzOTI3Nw.Gt8Oxe.6VnfH5b3Zv8_PmQQqAjKbwzcDGf3batwKBPw8o'
-YOUTUBE_API_KEY: Final[str] = 'AIzaSyC8PodPvuUKdHUlabEepE7QEMabNy72_KY'
+TOKEN: Final[str] = 'insert token'
+YOUTUBE_API_KEY: Final[str] = 'insert token'
 
 # Ensure PyNaCl is imported correctly
 try:
