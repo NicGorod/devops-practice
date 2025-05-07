@@ -30,8 +30,8 @@ resource "azurerm_application_gateway" "agw" {
   }
 
   frontend_ip_configuration {
-    name                 = var.frontend_ip_config
-    public_ip_address_id = azurerm_public_ip.pip.id
+    name                 = var.frontend_ip_config.name
+    public_ip_address_id = var.frontend_ip_config.public_ip ? azurerm_public_ip.pip.id : null
   }
 
   backend_address_pool {
@@ -39,17 +39,17 @@ resource "azurerm_application_gateway" "agw" {
   }
 
   backend_http_settings {
-    name                  = var.backend_http_settings
-    cookie_based_affinity = "Disabled"
+    name                  = var.backend_http_settings.name
+    cookie_based_affinity = var.backend_http_settings.cookie_based_affinity
     path                  = "/"
-    port                  = 80
-    protocol             = "Http"
-    request_timeout      = 60
+    port                  = var.backend_http_settings.port
+    protocol              = var.backend_http_settings.protocol
+    request_timeout       = var.backend_http_settings.request_timeout
   }
 
   http_listener {
     name                           = "basic-http-listener"
-    frontend_ip_configuration_name = var.frontend_ip_config
+    frontend_ip_configuration_name = var.frontend_ip_config.name
     frontend_port_name             = "frontend-port"
     protocol                       = "Http"
   }
@@ -59,7 +59,7 @@ resource "azurerm_application_gateway" "agw" {
     rule_type                  = "Basic"
     http_listener_name         = "basic-http-listener"
     backend_address_pool_name  = var.backend_pool
-    backend_http_settings_name = var.backend_http_settings
+    backend_http_settings_name = var.backend_http_settings.name
     priority                   = 100
   }
 

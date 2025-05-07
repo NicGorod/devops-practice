@@ -52,10 +52,19 @@ module "appgw" {
   sku                 = "Standard_v2"
   capacity            = 2
   tier                = "Standard_v2"
-  frontend_ip_config  = "frontend-ip-config"
+  frontend_ip_config = {
+    name      = "frontend-ip"
+    public_ip = true
+  }
   frontend_port       = "80"
   backend_pool        = "backend-pool"
-  backend_http_settings= "backend-http-settings"
+  backend_http_settings = {
+    name                  = "http-settings"
+    cookie_based_affinity = "Disabled"
+    port                  = 80
+    protocol              = "Http"
+    request_timeout       = 60
+  }
 
   tags = {
     Environment = "Production"

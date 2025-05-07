@@ -1,5 +1,23 @@
-provider "azurerm" {
-  features {}
+
+resource "azurerm_virtual_network" "vnet" {
+  name                = "vnet-aks"
+  resource_group_name = "rg-demo"
+  location            = "canadacentral"
+  address_space       = ["10.0.0.0/16"]
+}
+
+resource "azurerm_subnet" "aks" {
+  name                 = "snet-aks"
+  resource_group_name  = "rg-demo"
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes     = ["10.0.1.0/24"]
+}
+
+resource "azurerm_subnet" "appgw" {
+  name                 = "snet-appgw"
+  resource_group_name  = "rg-demo"
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes     = ["10.0.2.0/24"]
 }
 
 module "aks" {
@@ -7,13 +25,29 @@ module "aks" {
   resource_group_name = "rg-demo"
   location            = "canadacentral"
   cluster_name        = "aks-demo"
+  subnet_id           = azurerm_subnet.aks.id
 }
 
 module "agw" {
   source              = "./modules/appgw"
   resource_group_name = "rg-demo"
   location            = "canadacentral"
-  gateway_name        = "agw-demo"
+  appgw_name          = "agw-demo"
+  vnet_name           = azurerm_virtual_network.vnet.name
+  subnet_name         = "snet-appgw"
+  subnet_id           = azurerm_subnet.appgw.id
+  backend_pool        = "backend-pool"
+  backend_http_settings = {
+    name                  = "http-settings"
+    cookie_based_affinity = "Disabled"
+    port                  = 80
+    protocol              = "Http"
+    request_timeout       = 60
+  }
+  frontend_ip_config = {
+    name       = "frontend-ip"
+    public_ip  = true
+  }
 }
 
 module "cosmos" {
@@ -28,7 +62,7 @@ output "aks_id" {
 }
 
 output "gateway_ip" {
-  value = module.agw.gateway_ip
+  value = module.agw.public_ip_address
 }
 
 output "cosmos_endpoint" {
