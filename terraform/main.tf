@@ -62,7 +62,7 @@ output "aks_id" {
 }
 
 output "gateway_ip" {
-  value = module.agw.gateway_ip
+  value = module.agw.public_ip_address
 }
 
 output "cosmos_endpoint" {
